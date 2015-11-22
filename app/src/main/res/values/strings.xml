@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">TestMercadoLibre</string>
+
+    // API
+    <string name="uri_medios_pago">payment_methods?public_key=</string>
+    <string name="key_medios_pago">444a9ef5-8a6b-429f-abdf-587639155d88</string>
+
+    // About
+    <string name="action_about">About</string>
+    <string name="about_text">Test de reclutamiento a MercadoLibre.\nGerman Levy.\nNoviembre 2015.</string>
+
+    // Error
+    <string name="connection_error">Hubo un error de conexión. Por favor, intente más tarde.</string>
+
+</resources>
