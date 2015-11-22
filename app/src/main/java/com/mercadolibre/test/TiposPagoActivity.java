@@ -1,6 +1,7 @@
 package com.mercadolibre.test;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -11,11 +12,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.mercadolibre.test.model.PaymentMethod;
-import com.mercadolibre.test.model.PaymentMethodList;
 import com.mercadolibre.test.model.PaymentType;
 import com.mercadolibre.test.util.MercadoLibreAPIClient;
 import com.mercadolibre.testmercadolibre.R;
@@ -33,6 +32,10 @@ public class TiposPagoActivity extends ActionBarActivity {
     List<PaymentMethod> mFilteredList;
     ProgressBar mProgressBar;
 
+    // Payment methods
+    final private String uri = "payment_methods?public_key=";
+    final private String key = "444a9ef5-8a6b-429f-abdf-587639155d88";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +49,7 @@ public class TiposPagoActivity extends ActionBarActivity {
         super.onStart();
 
         // Se omite base_url, ya que se encuentra en MercadoLibreAPIClient
-        getMediosDePago(null, getString(R.string.uri_medios_pago),
-                getString(R.string.key_medios_pago));
+        getMediosDePago(null, uri, key);
         setLoading(true);
     }
 
@@ -71,7 +73,7 @@ public class TiposPagoActivity extends ActionBarActivity {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<PaymentMethod>>(){}.getType();
                     try {
-                        List<PaymentMethod> methods = (List<PaymentMethod>)gson.fromJson(response, listType);
+                        List<PaymentMethod> methods = gson.fromJson(response, listType);
                         initList(methods);
                     } catch (Exception e) {
                         showError(e.getMessage());
@@ -114,7 +116,10 @@ public class TiposPagoActivity extends ActionBarActivity {
         if (id == R.id.action_about) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.about_text)
-                    .setTitle(R.string.action_about);
+                    .setTitle(R.string.action_about)
+                    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) { }
+                    });
             builder.create().show();
             return true;
         }
